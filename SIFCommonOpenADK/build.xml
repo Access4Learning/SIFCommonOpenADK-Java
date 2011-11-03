@@ -1,0 +1,103 @@
+<project name="SIFCommonOpenADK" basedir="." default="03-jar-lib">
+
+	<property name="project.basedir" value="${basedir}"/>
+
+	<!-- *************************** -->
+	<!-- Load default property files -->
+	<!-- *************************** -->
+	<property file="${project.basedir}/ant.properties"/>
+
+	<!-- ********************* -->
+	<!-- Environment Variables -->
+	<!-- ********************* -->
+	<property name="build.dir.name" value="build"/>
+	<property name="src.dir" value="src" />
+	<property name="build.dir" value="${project.basedir}/${build.dir.name}"/>
+	<property name="dist.dir" value="${build.dir}/dist"/>
+	<property name="class.dir" value="${build.dir}/classes" />
+	<property name="lib.root.dir" value="${project.basedir}/lib" />
+	<property name="config.dir" value="${project.basedir}/config" />
+	<property name="sifcommon.name" value="sifcommon" />
+	<property name="buildversion" value="${locale}_${sifversion}-${frameworkversion}" />
+		
+	<property name="verbose" value="true" />
+
+	<path id="classpath">
+		<fileset dir="${lib.root.dir}">
+			<include name="**/*.jar" />
+			<include name="**/*.zip" />
+		</fileset>
+		<pathelement path="${class.dir}" />
+	</path>
+
+	<!-- print some varaibles -->
+	<target name="00-env" description="Show Ant variables">
+		<echo message="project.basedir: ${project.basedir}"/>
+		<echo message="build.dir: ${build.dir}"/>
+		<echo message="dist.dir: ${dist.dir}"/>
+		<echo message="class.dir: ${class.dir}"/>
+		<echo message="src.dir: ${src.dir}"/>
+		<echo message="lib.root.dir: ${lib.root.dir}"/>
+		<echo message="config.dir: ${config.dir}"/>
+        <echo message="sifcommon.name: ${sifcommon.name}"/>
+        <echo message="frameworkversion: ${frameworkversion}"/>
+		<echo message="locale: ${locale}"/>
+		<echo message="sifversion: ${sifversion}"/>
+		<echo message="javaversion: ${javaversion}"/>
+        <echo message="buildversion: ${buildversion}"/>
+	</target>
+
+	<!-- Check Dependencies -->
+	<target name="01-check-dependencies" depends="02-clean, compile-all" description="Check Build Dependencies"/>
+
+	<!-- Clean environment. -->
+	<target name="02-clean" description="Deletes the build directory">
+		<delete dir="${dist.dir}" />
+		<delete dir="${class.dir}" />
+	</target>
+
+	<!-- ***************** -->
+	<!-- Environment setup -->
+	<!-- ***************** -->
+	<target name="init">
+		<mkdir dir="${class.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+	</target>
+
+	<!-- ******************************* -->
+	<!-- Compile Targets for Environment -->
+	<!-- ******************************* -->
+
+	<!-- Main Compile Target -->
+	<target name="compile-all" depends="compile-sifcommon" description="Compile all sources"/>
+
+	<target name="compile-sifcommon" depends="init" description="Compile ${sifcommon.name}">
+		<echo message="Compile: ${project.basedir}/${sifcommon.name}"/>
+
+		<!-- Compile source -->
+		<javac destdir="${class.dir}" source="${javaversion}" target="${javaversion}" debug="on">
+			<classpath refid="classpath" />
+			<src path="${project.basedir}/${sifcommon.name}/${src.dir}/" />
+		</javac>
+
+		<!-- copy all non-java files across -->
+		<copy todir="${class.dir}">
+			<fileset dir="${project.basedir}/${sifcommon.name}/${src.dir}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+
+
+	<!-- Main Jar Target -->
+	<target name="03-jar-lib" depends="compile-all, jar-sifcommon" description="Create JAR files for all components"/>
+
+	<target name="jar-sifcommon" depends="init" description="Jar ${sifcommon.name}">
+		<echo message="Jar: ${project.basedir}/${sifcommon.name}"/>
+		<jar destfile="${dist.dir}/${sifcommon.name}-${buildversion}.jar">
+			<!-- Classes and resources -->
+			<fileset dir="${class.dir}" includes="**/${sifcommon.name}/** com/**" excludes="**/readme.txt"/>
+		</jar>
+	</target>
+
+</project>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="sifcommon/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_07"/>
+	<classpathentry kind="lib" path="lib/sifadk/SIFAU/javax.servlet.jar"/>
+	<classpathentry kind="lib" path="lib/sifadk/SIFAU/org.mortbay.jetty.jar"/>
+	<classpathentry kind="lib" path="lib/sifadk/SIFAU/org.mortbay.jmx.jar"/>
+	<classpathentry kind="lib" path="lib/sifadk/SIFAU/sjsxp.jar"/>
+	<classpathentry kind="lib" path="lib/systemic-framework.jar"/>
+	<classpathentry kind="lib" path="lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="lib/sifadk/SIFAU/jsr173_api.jar"/>
+	<classpathentry kind="lib" path="lib/log4j.jar"/>
+	<classpathentry kind="lib" path="lib/sifadk/SIFAU/openadk-1.0.0-AUSIF-1.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

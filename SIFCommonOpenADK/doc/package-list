@@ -1,0 +1,10 @@
+systemic.sif.sifcommon
+systemic.sif.sifcommon.agent
+systemic.sif.sifcommon.customObject
+systemic.sif.sifcommon.mapping
+systemic.sif.sifcommon.mapping.adapter
+systemic.sif.sifcommon.model
+systemic.sif.sifcommon.publisher
+systemic.sif.sifcommon.subscriber
+systemic.sif.sifcommon.subscriber.queue
+systemic.sif.sifcommon.utils
