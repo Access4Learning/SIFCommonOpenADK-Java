@@ -195,13 +195,33 @@ public class SIFCommonProperties
 	 * <code>agent._agentID_.multiTreaded=true|false</code><p>
 	 * 
 	 * @param agentID The agentID of the agent for which the multi-threaded indicator shall be returned.
-	 * @param defaultValue The default value to be returned if indicator can be found.
+	 * @param defaultValue The default value to be returned if indicator cannot be found.
 	 * 
 	 * @return See description.
 	 */
 	public boolean getMultiThreaded(String agentID, boolean defaultValue)
 	{
 		return getPropertyAsBool("agent."+agentID+".multiTreaded" ,defaultValue);
+	}
+	
+	/**
+	 * This method returns the indicator if the agent should continue even if it has encountered
+	 * an error when connection to a zone (i.e. invalid Zone URL).<p>
+     * 
+     * Valid values in the property file for this property is 'true' or 'false'.<p>
+     * 
+     * The property that this method attempts to access must have the following structure:<p>
+     * 
+     * <code>agent._agentID_.continueOnConnectionError=true|false</code><p>
+     * 
+     * @param agentID The agentID of the agent for which the "continue on error" indicator shall be returned.
+     * @param defaultValue The default value to be returned if indicator cannot be found.
+     * 
+     * @return See description.
+	 */
+	public boolean getContinueOnConnectionError(String agentID, boolean defaultValue)
+	{
+	    return getPropertyAsBool("agent."+agentID+".continueOnConnectionError" ,defaultValue);
 	}
 	
 	/**

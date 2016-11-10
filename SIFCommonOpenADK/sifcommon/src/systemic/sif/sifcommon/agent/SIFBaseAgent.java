@@ -301,8 +301,33 @@ public abstract class SIFBaseAgent extends Agent
                     }
                 }
 
-                zone.connect(ADKFlags.PROV_REGISTER);
-                logger.info("\n====================================================================================\n==== Connection to zone "+ zone.getZoneId()+ " successful.\n====================================================================================");
+                try
+                {
+                    zone.connect(ADKFlags.PROV_REGISTER);
+                    logger.info("\n====================================================================================\n==== Connection to zone "+ zone.getZoneId()+ " successful.\n====================================================================================");
+                }
+                catch (Exception ex)
+                {
+                    if (getFrameworkProperties().getContinueOnConnectionError(getAgentID(), false))
+                    {
+                        //Ok we ignore the fact that we could not connect to the zone and try the next zone. This is not ideal, so we log 
+                        //an error to indicate that fact and then it is up to the admins to take appropriate actions.
+                        logger.error("\n##################################################################################################\n"+
+                                     "AGENT "+getAgentID()+" FAILED TO SUCCESSFULLY CONNECT TO ZONE "+zone.getZoneId()+"!!!\n"+
+                                     "THIS IS A SERIOUS ISSUE AND SHOULD NOT BE IGNORED.\n"+
+                                     "YOU HAVE CHOSEN TO IGNORE THIS, THOUGH, THROUGH THE AGENT PROPERTY continueOnConnectionError=true.\n"+
+                                     "IT IS SUGGESTED TO CHANGE THAT!\n\n"+
+                                     "Possible fixes:\n"+
+                                     "  - Check if the zone connection URL is correct.\n"+
+                                     "  - Check if the ZIS is running and has the agent configured in the given zone.\n"+
+                                     "##################################################################################################");                        
+                    }
+                    else
+                    {
+                        // Don't ignore connection error. Will cause the agent to stop.
+                        throw ex;
+                    }
+                }
             }
             catch (Exception ex)
             {
